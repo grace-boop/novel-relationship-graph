@@ -15,7 +15,7 @@
   <script>
     const Graph = ForceGraph3D()
       (document.getElementById('3d-graph'))
-        .jsonUrl('https://grace-boop.github.io/python/data/graph.json')
+        .jsonUrl('https://grace-boop.github.io/novel-relationship-graph/data/graph.json')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
         .nodeThreeObject(node => {
@@ -30,7 +30,7 @@
         .linkThreeObjectExtend(true)
         .linkThreeObject(link => {
           // extend link with text sprite
-          const sprite = new SpriteText(`${link.source} - ${link.target} = ${link.weight}`)
+          const sprite = new SpriteText(`${link.source} & ${link.target} = ${link.weight}`)
           sprite.color = 'lightgrey';
           sprite.textHeight = 1.5;
           return sprite;
