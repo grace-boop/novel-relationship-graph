@@ -25,11 +25,11 @@
           sprite.textHeight = 8;
           return sprite;
         })
-        .linkWidth(link => Math.max(link.value , 10))
         .linkThreeObjectExtend(true)
         .linkThreeObject(link => {
           // extend link with text sprite
           const sprite = new SpriteText(`${link.source} - ${link.target} = ${link.weight}`);
+          sprite.widgh = Math.max(link.weight / 50)
           sprite.color = 'lightgrey';
           sprite.textHeight = 1.5;
           return sprite;
