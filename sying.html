@@ -12,7 +12,7 @@
     <script>
         const Graph = ForceGraph3D()
             (document.getElementById('3d-graph'))
-            .jsonUrl('https://github.com/grace-boop/python/blob/main/graph.json')
+            .jsonUrl('../../python/graph.json')
             .linkWidth(link => Math.max(link.value / 100, 0.1))
             .linkThreeObjectExtend(true)
             .linkThreeObject(link => {
