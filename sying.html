@@ -25,6 +25,7 @@
           sprite.textHeight = 8;
           return sprite;
         })
+        .linkWidth(link => Math.max(link.weight, 1))
         .linkThreeObjectExtend(true)
         .linkThreeObject(link => {
           // extend link with text sprite
