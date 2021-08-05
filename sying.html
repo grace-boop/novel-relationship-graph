@@ -22,10 +22,10 @@
           const sprite = new SpriteText(node.id);
           sprite.material.depthWrite = false; // make sprite background transparent
           sprite.color = node.color;
-          sprite.textHeight =Math.max(node.value/100, 5);
+          sprite.textHeight =node.value/100;
           return sprite;
         })
-        .linkWidth(link => Math.max(link.weight/70, 1))
+        .linkWidth(link => link.weight/70, 1)
         .linkThreeObjectExtend(true)
         .linkThreeObject(link => {
           // extend link with text sprite
