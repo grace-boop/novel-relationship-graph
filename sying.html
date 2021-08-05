@@ -36,6 +36,15 @@
           return new THREE.CSS2DObject(nodeEl);
         })
         .nodeThreeObjectExtend(true)
+      .linkWidth(link => Math.max(link.value / 100, 0.1))
+            .linkThreeObjectExtend(true)
+            .linkThreeObject(link => {
+                // extend link with text sprite
+                const sprite = new SpriteText(`${link.source} - ${link.target}: ${link.value}`);
+                sprite.color = 'lightgrey';
+                sprite.textHeight = 1.0;
+                return sprite;
+            })
       ;
     </script>
   </body>
