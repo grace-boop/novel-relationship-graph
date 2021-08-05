@@ -1,37 +1,31 @@
 <head>
-    <script src="//unpkg.com/three"></script>
-    <script src="//unpkg.com/three-spritetext"></script>
+  <style> body { margin: 0; } </style>
 
-    <script src="//unpkg.com/3d-force-graph"></script>
-    <!--<script src="../../dist/3d-force-graph.js"></script>-->
+  <script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/three-spritetext"></script>
+
+  <script src="//unpkg.com/3d-force-graph"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
 </head>
 
 <body>
-    <div id="3d-graph"></div>
+  <div id="3d-graph"></div>
 
-    <script>
-        const Graph = ForceGraph3D()
-            (document.getElementById('3d-graph'))
-            .jsonUrl('../../graph.json')
-            .linkWidth(link => Math.max(link.value / 10, 0.1))
-            .linkThreeObjectExtend(true)
-            .linkThreeObject(link => {
-                // extend link with text sprite
-                const sprite = new SpriteText(`${link.source} - ${link.target}: ${link.value}`);
-                sprite.color = 'lightgrey';
-                sprite.textHeight = 1.0;
-                return sprite;
-            })
-            .linkPositionUpdate((sprite, { start, end }) => {
-                const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({
-                    [c]: start[c] + (end[c] - start[c]) / 2 // calc middle point
-                })));
+  <script>
+    const Graph = ForceGraph3D()
+      (document.getElementById('3d-graph'))
+        .jsonUrl('../../graph.json')
+        .nodeAutoColorBy('group')
+        .nodeThreeObject(node => {
+          const sprite = new SpriteText(node.id);
+          sprite.material.depthWrite = false; // make sprite background transparent
+          sprite.color = node.color;
+          sprite.textHeight = 8;
+          return sprite;
+        });
 
-                // Position sprite
-                Object.assign(sprite.position, middlePos);
-            });
+    // Spread nodes a little wider
+    Graph.d3Force('charge').strength(-120);
 
-        // Spread nodes a little wider
-        Graph.d3Force('charge').strength(-700);
-    </script>
+  </script>
 </body>
