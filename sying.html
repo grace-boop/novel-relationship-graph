@@ -13,6 +13,14 @@
         const Graph = ForceGraph3D()
             (document.getElementById('3d-graph'))
             .jsonUrl('../../graph.json')
+            .nodeAutoColorBy('group')
+            .nodeThreeObject(node => {
+            const sprite = new SpriteText(node.id);
+            sprite.material.depthWrite = false; // make sprite background transparent
+            sprite.color = node.color;
+            sprite.textHeight = 8;
+            return sprite;
+            });
             .linkWidth(link => Math.max(link.value / 10, 0.1))
             .linkThreeObjectExtend(true)
             .linkThreeObject(link => {
