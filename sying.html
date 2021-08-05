@@ -25,7 +25,7 @@
           sprite.textHeight =node.value/100;
           return sprite;
         })
-        .linkWidth(link => link.weight/70)
+        .linkWidth(link => Math.max(link.weight/70,1))
         .linkThreeObjectExtend(true)
         .linkThreeObject(link => {
           // extend link with text sprite
