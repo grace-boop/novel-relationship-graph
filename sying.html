@@ -1,42 +1,26 @@
 <head>
-    <style> body { margin: 0; } </style>
-    <title>My frst web page</title>
     <script src="//unpkg.com/three"></script>
-    <script src="//unpkg.com/three/examples/js/renderers/CSS2DRenderer.js"></script>
-  
+    <script src="//unpkg.com/three-spritetext"></script>
+
     <script src="//unpkg.com/3d-force-graph"></script>
-  <!--  <script src="../../dist/3d-force-graph.js"></script>-->
-  
-    <style>
-      .node-label {
-        font-size: 12px;
-        padding: 1px 4px;
-        border-radius: 4px;
-        background-color: rgba(0,0,0,0.5);
-        user-select: none;
-      }
-    </style>
-  </head>
-  
-  <body>
+    <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+
+<body>
     <div id="3d-graph"></div>
-  
+
     <script>
-      const Graph = ForceGraph3D({
-        extraRenderers: [new THREE.CSS2DRenderer()]
-      })
-      (document.getElementById('3d-graph'))
-        .jsonUrl('https://github.com/grace-boop/python/blob/main/graph.json')
-        .nodeAutoColorBy('group')
-        .nodeThreeObject(node => {
-          const nodeEl = document.createElement('div');
-          nodeEl.textContent = node.id;
-          nodeEl.style.color = node.color;
-          nodeEl.className = 'node-label';
-          return new THREE.CSS2DObject(nodeEl);
-        })
-        .nodeThreeObjectExtend(true)
-      .linkWidth(link => Math.max(link.value / 100, 0.1))
+        const Graph = ForceGraph3D()
+            (document.getElementById('3d-graph'))
+            .jsonUrl('https://github.com/grace-boop/python/blob/main/graph.json')
+            .nodeThreeObject(node => {
+                const sprite = new SpriteText(node.id);
+                sprite.material.depthWrite = false; // make sprite background transparent
+                sprite.color = node.color;
+                sprite.textHeight = Math.max(node.value / 5, 3);
+                return sprite;
+            })
+            .linkWidth(link => Math.max(link.value / 100, 0.1))
             .linkThreeObjectExtend(true)
             .linkThreeObject(link => {
                 // extend link with text sprite
@@ -45,14 +29,16 @@
                 sprite.textHeight = 1.0;
                 return sprite;
             })
-      .linkPositionUpdate((sprite, { start, end }) => {
+            .linkPositionUpdate((sprite, { start, end }) => {
                 const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({
                     [c]: start[c] + (end[c] - start[c]) / 2 // calc middle point
                 })));
 
                 // Position sprite
                 Object.assign(sprite.position, middlePos);
-            })
+            });
+
+        // Spread nodes a little wider
+        Graph.d3Force('charge').strength(-700);
     </script>
-  </body>
-  
+</body>
