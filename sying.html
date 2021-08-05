@@ -18,6 +18,7 @@
         .jsonUrl('https://grace-boop.github.io/novel-relationship-graph/data/graph.json')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
+        .nodeVal (link => Math.max(node.value, 1))
         .nodeThreeObject(node => {
           const sprite = new SpriteText(node.id);
           sprite.material.depthWrite = false; // make sprite background transparent
